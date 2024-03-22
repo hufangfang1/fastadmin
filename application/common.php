@@ -656,3 +656,38 @@ if (!function_exists('check_job_status')) {
         return $finetuned_output;
     }
 }
+if (!function_exists('json_encode_cus')) {
+    /**
+     * Function json_encode_cus [json处理]
+     * Auther: Changzd
+     * Date: 2020-10-14
+     * @param $data
+     * @return false|string
+     */
+    function json_encode_cus($data)
+    {
+        return json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+}
+if (!function_exists('redis')) {
+    /**
+     * Function redis [redis]
+     * Auther: Changzd
+     * Date: 2020-10-14
+     * @return |null
+     */
+    function redis()
+    {
+        static $redis = null;
+        if (is_null($redis)) {
+            $redis = \org\RedisClient::getInstance([
+                'host' => \think\Config::get('redis.host'),
+                'port' => \think\Config::get('redis.port'),
+                'auth' => \think\Config::get('redis.auth') ?? null,
+            ]);
+        }
+
+        return $redis;
+    }
+}
+
