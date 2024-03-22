@@ -223,5 +223,15 @@ class Config extends Model
         );
         return true;
     }
+    /**
+     * Function getVal [获取系统配置]
+     * Auther: Changzd
+     * Date: 2020-10-24
+     * @param $key
+     * @return mixed|string
+     */
+    public function getVal($key) {
+        return $this->where('name', $key)->value('value') ?? '';
+    }
 
 }

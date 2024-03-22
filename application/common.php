@@ -10,7 +10,7 @@ if (!function_exists('__')) {
     /**
      * 获取语言变量值
      * @param string $name 语言变量名
-     * @param array  $vars 动态变量值
+     * @param array $vars 动态变量值
      * @param string $lang 语言
      * @return mixed
      */
@@ -32,9 +32,9 @@ if (!function_exists('format_bytes')) {
 
     /**
      * 将字节转换为可读文本
-     * @param int    $size      大小
+     * @param int $size 大小
      * @param string $delimiter 分隔符
-     * @param int    $precision 小数位数
+     * @param int $precision 小数位数
      * @return string
      */
     function format_bytes($size, $delimiter = '', $precision = 2)
@@ -51,7 +51,7 @@ if (!function_exists('datetime')) {
 
     /**
      * 将时间戳转换为日期时间
-     * @param int    $time   时间戳
+     * @param int $time 时间戳
      * @param string $format 日期时间格式
      * @return string
      */
@@ -66,7 +66,7 @@ if (!function_exists('human_date')) {
 
     /**
      * 获取语义化时间
-     * @param int $time  时间
+     * @param int $time 时间
      * @param int $local 本地时间
      * @return string
      */
@@ -80,7 +80,7 @@ if (!function_exists('cdnurl')) {
 
     /**
      * 获取上传资源的CDN的地址
-     * @param string  $url    资源相对地址
+     * @param string $url 资源相对地址
      * @param boolean $domain 是否显示域名 或者直接传入域名
      * @return string
      */
@@ -133,8 +133,8 @@ if (!function_exists('rmdirs')) {
 
     /**
      * 删除文件夹
-     * @param string $dirname  目录
-     * @param bool   $withself 是否删除自身
+     * @param string $dirname 目录
+     * @param bool $withself 是否删除自身
      * @return boolean
      */
     function rmdirs($dirname, $withself = true)
@@ -163,7 +163,7 @@ if (!function_exists('copydirs')) {
     /**
      * 复制文件夹
      * @param string $source 源文件夹
-     * @param string $dest   目标文件夹
+     * @param string $dest 目标文件夹
      */
     function copydirs($source, $dest)
     {
@@ -199,7 +199,7 @@ if (!function_exists('addtion')) {
 
     /**
      * 附加关联字段数据
-     * @param array $items  数据列表
+     * @param array $items 数据列表
      * @param mixed $fields 渲染的来源字段
      * @return array
      */
@@ -272,7 +272,7 @@ if (!function_exists('var_export_short')) {
 
     /**
      * 使用短标签打印或返回数组结构
-     * @param mixed   $data
+     * @param mixed $data
      * @param boolean $return 是否返回数据
      * @return string
      */
@@ -535,7 +535,7 @@ if (!function_exists('build_suffix_image')) {
     /**
      * 生成文件后缀图片
      * @param string $suffix 后缀
-     * @param null   $background
+     * @param null $background
      * @return string
      */
     function build_suffix_image($suffix, $background = null)
@@ -558,5 +558,99 @@ if (!function_exists('build_suffix_image')) {
         </svg>
 EOT;
         return $icon;
+    }
+}
+if (!function_exists('add_voice_file')) {
+    function add_voice_file($api_key, $file)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://dashscope.aliyuncs.com/api/v1/files');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+            'files' => new CURLFile($file)
+        ));
+
+        $headers = array();
+        $headers[] = 'Authorization: Bearer ' . $api_key;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return '';
+        }
+        curl_close($ch);
+        $result = json_decode($result, true);
+        $fileId = $result['data']['uploaded_files']['file_id'] ?? '';
+        if (!empty($fileId)) {
+            return $fileId;
+        }
+        return '';
+    }
+}
+if (!function_exists('add_voice_task')) {
+    function add_voice_task($api_key, $file_id, $model_name)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://dashscope.aliyuncs.com/api/v1/fine-tunes');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
+            "model" => "sambert",
+            "training_file_ids" => [
+                $file_id
+            ],
+            "finetuned_output_suffix" => $model_name
+        )));
+
+        $headers = array();
+        $headers[] = 'Authorization: ' . $api_key;
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return '';
+        }
+        curl_close($ch);
+        $result = json_decode($result, true);
+        $job_id = $result['output']['job_id'] ?? '';
+        if (!empty($job_id)) {
+            return $job_id;
+        }
+        return '';
+    }
+}
+if (!function_exists('check_job_status')) {
+    function check_job_status($api_key, $job_id)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://dashscope.aliyuncs.com/api/v1/fine-tunes/' . $job_id);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+        $headers = array();
+        $headers[] = 'Authorization: ' . $api_key;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return '';
+        }
+
+        curl_close($ch);
+        $result = json_decode($result, true);
+        $status = $result['output']['status'] ?? '';
+        if (!empty($status)) {
+            if ($status == 'SUCCEEDED') {
+                $finetuned_output = $result['output']['finetuned_output'] ?? '';
+            } else {
+                $finetuned_output = '';
+            }
+        }
+        return $finetuned_output;
     }
 }

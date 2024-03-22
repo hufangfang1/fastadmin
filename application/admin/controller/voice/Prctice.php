@@ -3,6 +3,10 @@
 namespace app\admin\controller\voice;
 
 use app\common\controller\Backend;
+use app\common\model\Config;
+use think\Db;
+use think\exception\PDOException;
+use think\exception\ValidateException;
 
 /**
  * 
@@ -32,6 +36,55 @@ class Prctice extends Backend
      * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
+
+    /**
+     * 添加
+     *
+     * @return string
+     * @throws \think\Exception
+     */
+    public function add()
+    {
+        if (false === $this->request->isPost()) {
+            return $this->view->fetch();
+        }
+        $params = $this->request->post('row/a');
+        if (empty($params)) {
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $params = $this->preExcludeFields($params);
+
+        if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
+            $params[$this->dataLimitField] = $this->auth->id;
+        }
+        $result = false;
+        Db::startTrans();
+        try {
+            //是否采用模型验证
+            if ($this->modelValidate) {
+                $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
+                $this->model->validateFailException()->validate($validate);
+            }
+            $api_key = (new Config())->getVal('voice_api_key');
+            $file = ROOT_PATH . '/public/' . $params['file'];
+            $params['file_id'] = add_voice_file($api_key, $file);
+            if (!$params['file_id']) {
+                $params['task_id'] = add_voice_task($api_key, $params['file_id'], $params['finetuned_output']);
+            } else {
+                $params['task_id'] = '';
+            }
+            $result = $this->model->allowField(true)->save($params);
+            Db::commit();
+        } catch (ValidateException|PDOException|Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        if ($result === false) {
+            $this->error(__('No rows were inserted'));
+        }
+        $this->success();
+    }
 
 
 }
