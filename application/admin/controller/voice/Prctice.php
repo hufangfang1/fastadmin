@@ -77,7 +77,7 @@ class Prctice extends Backend
             } else {
                 $params['task_id'] = '';
             }
-            $params['upload_time'] = time();
+            $params['update_time'] = time();
             $params['create_time'] = time();
             $result = $this->model->allowField(true)->save($params);
             Db::commit();
