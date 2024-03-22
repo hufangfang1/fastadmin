@@ -583,7 +583,7 @@ if (!function_exists('add_voice_file')) {
         }
         curl_close($ch);
         $result = json_decode($result, true);
-        $fileId = $result['data']['uploaded_files']['file_id'] ?? '';
+        $fileId = $result['data']['uploaded_files'][0]['file_id'] ?? '';
         if (!empty($fileId)) {
             return $fileId;
         }
