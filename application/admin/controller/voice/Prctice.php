@@ -68,12 +68,14 @@ class Prctice extends Backend
             }
             $api_key = (new Config())->getVal('voice_api_key');
             $filePath = explode(',',$params['file_path_image']);
-            trace($filePath, 'debug');
+            var_dump($filePath);
             $file = [];
             foreach($filePath as $path){
                 $file[] = ROOT_PATH . '/public/' . $path;
             }
+            var_dump($file);
             $params['file_id'] = add_voice_file($api_key, $file);
+            var_dump($params['file_id']);
             if (!$params['file_id']) {
                 $params['task_id'] = add_voice_task($api_key, $params['file_id'], $params['finetuned_output']);
                 $params['file_id'] = implode(',', $params['file_id']);
