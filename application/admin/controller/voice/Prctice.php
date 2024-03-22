@@ -70,7 +70,7 @@ class Prctice extends Backend
             $filePath = explode(',',$params['file_path_image']);
             $file = [];
             foreach($filePath as $path){
-                $file[] = ROOT_PATH . '/public/' . $params['file_path_image'];
+                $file[] = ROOT_PATH . '/public/' . $path;
             }
             $params['file_id'] = add_voice_file($api_key, $file);
             if (!$params['file_id']) {
