@@ -68,6 +68,9 @@ class Prctice extends Backend
             }
             $api_key = (new Config())->getVal('voice_api_key');
             $file = ROOT_PATH . '/public/' . $params['file_path_image'];
+            if(!file_exists($file)){
+                $this->error('文件不存在');
+            }
             $params['file_id'] = add_voice_file($api_key, $file);
             if (!$params['file_id']) {
                 $params['task_id'] = add_voice_task($api_key, $params['file_id'], $params['finetuned_output']);
