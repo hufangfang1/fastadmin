@@ -74,7 +74,7 @@ class Prctice extends Backend
             }
             $params['file_id'] = add_voice_file($api_key, $file);
             var_dump($params['file_id']);
-            if (!$params['file_id']) {
+            if (!empty($params['file_id'])) {
                 $params['task_id'] = add_voice_task($api_key, $params['file_id'], $params['finetuned_output']);
                 $params['file_id'] = implode(',', $params['file_id']);
             } else {
