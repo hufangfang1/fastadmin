@@ -67,7 +67,7 @@ class Prctice extends Backend
                 $this->model->validateFailException()->validate($validate);
             }
             $api_key = (new Config())->getVal('voice_api_key');
-            $file = ROOT_PATH . '/public/' . $params['file'];
+            $file = ROOT_PATH . '/public/' . $params['file_path_image'];
             $params['file_id'] = add_voice_file($api_key, $file);
             if (!$params['file_id']) {
                 $params['task_id'] = add_voice_task($api_key, $params['file_id'], $params['finetuned_output']);
