@@ -29,11 +29,9 @@
             {foreach $siteList as $index=>$vo}
             <li class="{$vo.active?'active':''}"><a href="#tab-{$vo.name}" data-toggle="tab">{:__($vo.title)}</a></li>
             {/foreach}
-            {if $Think.config.app_debug}
             <li data-toggle="tooltip" title="{:__('Add new config')}">
                 <a href="#addcfg" data-toggle="tab"><i class="fa fa-plus"></i></a>
             </li>
-            {/if}
         </ul>
     </div>
 
