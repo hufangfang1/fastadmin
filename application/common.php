@@ -577,6 +577,7 @@ if (!function_exists('add_voice_file')) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
+        trace($result, 'add_voice_file');
         if (curl_errno($ch)) {
             return '';
         }
@@ -611,6 +612,7 @@ if (!function_exists('add_voice_task')) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
+        trace($result, 'add_voice_task');
         if (curl_errno($ch)) {
             return '';
         }
