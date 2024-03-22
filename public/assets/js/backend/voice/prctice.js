@@ -26,7 +26,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'file_path_image', title: __('File_path_image'), operate: false, events: Table.api.events.image, formatter: Table.api.formatter.image},
+                        {field: 'file_path_image', title: __('File_path_image'), operate: false, events: Table.api.events.image, formatter: Table.api.formatter.file},
                         {field: 'file_id', title: __('File_id'), operate: 'LIKE'},
                         {field: 'task_id', title: __('Task_id'), operate: 'LIKE'},
                         {field: 'finetuned_output', title: __('Finetuned_output'), operate: 'LIKE'},
