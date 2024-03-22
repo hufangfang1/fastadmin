@@ -17,7 +17,7 @@ return [
     /**
      * 最大可上传大小
      */
-    'maxsize'   => '10mb',
+    'maxsize'   => '300mb',
     /**
      * 可上传的文件类型
      */
@@ -29,7 +29,7 @@ return [
     /**
      * 是否支持分片上传
      */
-    'chunking'  => false,
+    'chunking'  => true,
     /**
      * 默认分片大小
      */

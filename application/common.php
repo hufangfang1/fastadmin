@@ -563,13 +563,17 @@ EOT;
 if (!function_exists('add_voice_file')) {
     function add_voice_file($api_key, $file)
     {
+        $files = [];
+        foreach($file as $f){
+            $files[] = new CURLFile($f);
+        }
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://dashscope.aliyuncs.com/api/v1/files');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-            'files' => new CURLFile($file)
+            'files' => $files
         ));
 
         $headers = array();
@@ -583,7 +587,7 @@ if (!function_exists('add_voice_file')) {
         }
         curl_close($ch);
         $result = json_decode($result, true);
-        $fileId = $result['data']['uploaded_files'][0]['file_id'] ?? '';
+        $fileId = $result['data']['uploaded_files'] ?? [];
         if (!empty($fileId)) {
             return $fileId;
         }
@@ -600,9 +604,7 @@ if (!function_exists('add_voice_task')) {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
             "model" => "sambert",
-            "training_file_ids" => [
-                $file_id
-            ],
+            "training_file_ids" => $file_id,
             "finetuned_output_suffix" => $model_name
         )));
 
