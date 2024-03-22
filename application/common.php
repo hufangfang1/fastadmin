@@ -573,7 +573,7 @@ if (!function_exists('add_voice_file')) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-            'files' => $files
+            'files' => json_encode_cus($files)
         ));
 
         $headers = array();
