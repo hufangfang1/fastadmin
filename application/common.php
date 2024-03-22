@@ -580,8 +580,6 @@ if (!function_exists('add_voice_file')) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
-        var_dump($result);
-        trace($result, 'add_voice_file');
         if (curl_errno($ch)) {
             return '';
         }
