@@ -589,6 +589,7 @@ if (!function_exists('add_voice_file')) {
         curl_close($ch);
         $result = json_decode($result, true);
         $fileId = $result['data']['uploaded_files'] ?? [];
+        $fileId = array_column($fileId, 'file_id');
         if (!empty($fileId)) {
             return $fileId;
         }
