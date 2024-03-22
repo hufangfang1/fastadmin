@@ -567,14 +567,15 @@ if (!function_exists('add_voice_file')) {
         foreach($file as $f){
             $files[] = new CURLFile($f);
         }
+        $postData = array(
+            'files' => $files
+        );
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://dashscope.aliyuncs.com/api/v1/files');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-            'files' => json_encode_cus($files)
-        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($postData));
 
         $headers = array();
         $headers[] = 'Authorization: Bearer ' . $api_key;
