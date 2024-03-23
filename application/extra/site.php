@@ -4,7 +4,7 @@ return array (
   'name' => '我的网站',
   'beian' => '',
   'cdnurl' => '',
-  'version' => '1.0.2',
+  'version' => '1.0.3',
   'timezone' => 'Asia/Shanghai',
   'forbiddenip' => '',
   'languages' => 
@@ -41,4 +41,5 @@ return array (
     'category2' => 'Category2',
     'custom' => 'Custom',
   ),
+  'voice_api_key' => 'sk-2f7802dd297c4beb92d7a88645532214',
 );
