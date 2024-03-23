@@ -655,6 +655,7 @@ if (!function_exists('check_job_status')) {
 
         curl_close($ch);
         $result = json_decode($result, true);
+        var_dump($result);
         $status = $result['output']['status'] ?? '';
         echo $status;
         if (!empty($status)) {
