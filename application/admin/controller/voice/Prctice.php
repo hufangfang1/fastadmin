@@ -66,19 +66,6 @@ class Prctice extends Backend
                 $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
                 $this->model->validateFailException()->validate($validate);
             }
-            $api_key = (new Config())->getVal('voice_api_key');
-            $filePath = explode(',',$params['file_path_image']);
-            $file = [];
-            foreach($filePath as $path){
-                $file[] = ROOT_PATH . '/public/' . $path;
-            }
-            $params['file_id'] = add_voice_file($api_key, $file);
-            if (!empty($params['file_id'])) {
-                $params['task_id'] = add_voice_task($api_key, $params['file_id'], $params['finetuned_output']);
-                $params['file_id'] = implode(',', $params['file_id']);
-            } else {
-                $params['task_id'] = '';
-            }
             $params['update_time'] = time();
             $params['create_time'] = time();
             $result = $this->model->allowField(true)->save($params);
