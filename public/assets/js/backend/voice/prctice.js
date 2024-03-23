@@ -8,7 +8,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     index_url: 'voice/prctice/index' + location.search,
                     add_url: 'voice/prctice/add',
                     edit_url: 'voice/prctice/edit',
-                    del_url: 'voice/prctice/del',
                     multi_url: 'voice/prctice/multi',
                     import_url: 'voice/prctice/import',
                     table: 'voice_prctice',
