@@ -661,7 +661,9 @@ if (!function_exists('check_job_status')) {
         if (!empty($status)) {
             if ($status == 'SUCCEEDED') {
                 $finetuned_output = $result['output']['finetuned_output'] ?? '';
-            } else {
+            } elseif($status == 'FAILED') {
+                $finetuned_output = -1;
+            }else{
                 $finetuned_output = '';
             }
         }

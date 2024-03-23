@@ -21,7 +21,7 @@ class CheckJobStatus extends Base
         if ($lock) {
             exit('任务正在执行中');
         }
-        redis()->setex($lockKey,'3600',1);
+        redis()->setex($lockKey, '3600', 1);
         $id = 0;
         $limit = 1000;
         do {
@@ -40,14 +40,14 @@ class CheckJobStatus extends Base
                         if (empty($item['task_id'])) {
                             $data = [];
                             $api_key = (new Config())->getVal('voice_api_key');
-                            if(empty($item['file_id'])){
+                            if (empty($item['file_id'])) {
                                 $filePath = explode(',', $item['file_path_image']);
                                 $file = [];
                                 foreach ($filePath as $path) {
                                     $file[] = ROOT_PATH . '/public/' . $path;
                                 }
                                 $data['file_id'] = add_voice_file($api_key, $file);
-                            }else{
+                            } else {
                                 $data['file_id'] = explode(',', $item['file_id']);
                             }
 
@@ -60,8 +60,12 @@ class CheckJobStatus extends Base
                             Db::name('voice_prctice')->where('id', $id)->update($data);
                         } else {
                             $finetuned_output = check_job_status($api_key, $item['task_id']);
-                            if ($finetuned_output) {
-                                Db::name('voice_prctice')->where('id', $id)->update(['finetuned_output' => $finetuned_output, 'status' => 1]);
+                            if (!empty($finetuned_output)) {
+                                if ($finetuned_output == -1) {
+                                    Db::name('voice_prctice')->where('id', $id)->update(['status' => 2]);
+                                } else {
+                                    Db::name('voice_prctice')->where('id', $id)->update(['finetuned_output' => $finetuned_output, 'status' => 1]);
+                                }
                             }
                         }
 
