@@ -578,7 +578,16 @@ if (!function_exists('add_voice_file')) {
         $headers = array();
         $headers[] = 'Authorization: Bearer ' . $api_key;
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
+        // Set the progress function
+        curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function ($resource, $download_size, $downloaded, $upload_size, $uploaded)
+        {
+            if ($upload_size > 0) {
+                $percent = $uploaded / $upload_size * 100;
+                echo "Upload progress: " . number_format($percent, 2) . "%\r";
+                flush();
+            }
+        });
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
             return '';
@@ -647,6 +656,7 @@ if (!function_exists('check_job_status')) {
         curl_close($ch);
         $result = json_decode($result, true);
         $status = $result['output']['status'] ?? '';
+        echo $status;
         if (!empty($status)) {
             if ($status == 'SUCCEEDED') {
                 $finetuned_output = $result['output']['finetuned_output'] ?? '';
@@ -654,6 +664,7 @@ if (!function_exists('check_job_status')) {
                 $finetuned_output = '';
             }
         }
+        echo $finetuned_output;
         return $finetuned_output;
     }
 }
