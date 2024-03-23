@@ -21,6 +21,7 @@ class CheckJobStatus extends Base
         if ($lock) {
             exit('任务正在执行中');
         }
+        redis()->setex($lockKey,'3600',1);
         $id = 0;
         $limit = 1000;
         do {
