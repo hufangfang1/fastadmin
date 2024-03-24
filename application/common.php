@@ -705,4 +705,34 @@ if (!function_exists('redis')) {
         return $redis;
     }
 }
+if(!function_exists('text_to_voice')){
+    function text_to_voice($text,$api_key,$model){
+        $url = 'http://39.109.126.246:5050/synthesize_audio';
+        $data = array(
+            'model' => $model,
+            'text' => $text,
+            'api_key' => $api_key,
+            'sample_rate' => 48000,
+            'format' => 'wav'
+        );
+
+        $options = array(
+            'http' => array(
+                'header' => "Content-Type: application/json\r\n",
+                'method' => 'POST',
+                'content' => json_encode($data)
+            )
+        );
+
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+
+        if ($response !== false) {
+            file_put_contents('output.wav', $response);
+            echo "音频文件已保存到 output.wav";
+        } else {
+            echo "接口调用失败";
+        }
+    }
+}
 
