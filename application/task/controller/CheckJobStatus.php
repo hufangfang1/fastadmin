@@ -64,7 +64,7 @@ class CheckJobStatus extends Base
                                 if ($finetuned_output == -1) {
                                     Db::name('voice_prctice')->where('id', $id)->update(['status' => 2]);
                                 } else {
-                                    Db::name('voice_prctice')->where('id', $id)->update(['finetuned_output' => $finetuned_output, 'status' => 1]);
+                                    Db::name('voice_prctice')->where('id', $id)->update(['update_time' => time(), 'finetuned_output' => $finetuned_output, 'status' => 1]);
                                 }
                             }
                         }
