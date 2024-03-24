@@ -726,13 +726,25 @@ if(!function_exists('text_to_voice')){
 
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
+        $savekey = getSavekey();
+        $savekey = '/' . ltrim($savekey, '/');
+        $uploadDir = substr($savekey, 0, strripos($savekey, '/') + 1);
+        $fileName = substr($savekey, strripos($savekey, '/') + 1);
 
+        $destDir = ROOT_PATH . 'public' . str_replace('/', DS, $uploadDir);
         if ($response !== false) {
-            file_put_contents('output.wav', $response);
-            echo "音频文件已保存到 output.wav";
+            file_put_contents($destDir.$fileName, $response);
+            return $uploadDir.$fileName;
         } else {
-            echo "接口调用失败";
+            return false;
         }
+    }
+}
+if(!function_exists('getSavekey')){
+    function getSavekey(){
+        $savekey = '/uploads/' . date('Ymd') . '/';
+        $savekey .= md5(uniqid()) . '.wav';
+        return $savekey;
     }
 }
 
