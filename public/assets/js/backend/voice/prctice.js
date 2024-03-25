@@ -50,7 +50,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Form.api.bindevent($("form[role=form]"), function (data) {
                 console.log(data.url);
                 Toastr.success('success');
-                $('#audio').attr('src', data.url);
+                var audioSource = data.url;
+                $('#audioPlayer').append('<source src="' + audioSource + '" type="audio/mpeg">');
                 return false;
             });
         },
