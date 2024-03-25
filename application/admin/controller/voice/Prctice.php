@@ -9,7 +9,7 @@ use think\exception\PDOException;
 use think\exception\ValidateException;
 
 /**
- * 
+ *
  *
  * @icon fa fa-circle-o
  */
@@ -78,6 +78,28 @@ class Prctice extends Backend
             $this->error(__('No rows were inserted'));
         }
         $this->success();
+    }
+
+    public function tryListen()
+    {
+        if (false === $this->request->isPost()) {
+            return $this->view->fetch();
+        }
+        $params = $this->request->post('row/a');
+        if (empty($params)) {
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $params = $this->preExcludeFields($params);
+        $text = $params['text'];
+        $api_key = $params['api_key'];
+        $model = $params['model'];
+        $url = text_to_voice($text, $api_key, $model);
+        if(!empty($url)){
+            $url = 'https://www.ershimei.top'.$url;
+            $this->success('success', null, ['url' => $url]);
+        }else{
+            $this->error(__('No rows were inserted'));
+        }
     }
 
 

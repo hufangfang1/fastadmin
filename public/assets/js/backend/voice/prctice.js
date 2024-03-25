@@ -46,6 +46,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         edit: function () {
             Controller.api.bindevent();
         },
+        try_listen: function () {
+            Form.api.bindevent($("form[role=form-remark]"), function (data) {
+                Toastr.success('success');
+                return false;
+            });
+        },
         api: {
             bindevent: function () {
                 Form.api.bindevent($("form[role=form]"));

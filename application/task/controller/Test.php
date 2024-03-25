@@ -17,8 +17,9 @@ class Test extends Base
 
     public function index()
     {
-        $text = '文章讨论了不同时代人们的生活方式和消费观念差异，以及节俭的重要性。老一辈人经历过物质匮乏，注重节俭；现代人追求精神满足和个性展示，但易过度消费。支付方式也影响消费习惯，现金支付有实在感，手机支付则易放松警惕。理解和尊重不同生活方式，才能促进家庭和谐。';
-        $path = text_to_voice($text,'sk-eae91e0787bf4e80b84c0140bc7ca50e','sambert-zhichu-v1');
+        $text = '你好世界';
+//        $path = text_to_voice($text,'sk-eae91e0787bf4e80b84c0140bc7ca50e','sambert-zhichu-v1');
+        $path = text_to_voice($text,'sk-2f7802dd297c4beb92d7a88645532214','sambert-mengmimian-ft-202403232341-b9a0');
         var_dump($path);
         $this->render();
     }
