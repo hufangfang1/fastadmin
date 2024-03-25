@@ -735,7 +735,8 @@ if(!function_exists('text_to_voice')){
         if (!is_dir($destDir)) {
             @mkdir($destDir, 0755, true);
         }
-        if ($response !== false) {
+
+        if ($response !== 'Error: Failed to synthesize audio') {
             file_put_contents($destDir.$fileName, $response);
             return $uploadDir.$fileName;
         } else {

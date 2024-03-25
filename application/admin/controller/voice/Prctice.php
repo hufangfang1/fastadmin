@@ -98,7 +98,7 @@ class Prctice extends Backend
             $url = 'https://www.ershimei.top'.$url;
             $this->success('success', null, ['url' => $url]);
         }else{
-            $this->error(__('No rows were inserted'));
+            $this->error('语音生成失败');
         }
     }
 
