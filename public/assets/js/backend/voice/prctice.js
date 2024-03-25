@@ -48,9 +48,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         },
         trylisten: function () {
             Form.api.bindevent($("form[role=form]"), function (data) {
-                console.log(data);
+                console.log(data.url);
                 Toastr.success('success');
-                $('#video').attr('src', data.url);
+                $('#audio').attr('src', data.url);
                 return false;
             });
         },
