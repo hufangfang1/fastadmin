@@ -80,7 +80,7 @@ class Prctice extends Backend
         $this->success();
     }
 
-    public function tryListen()
+    public function trylisten()
     {
         if (false === $this->request->isPost()) {
             return $this->view->fetch();
