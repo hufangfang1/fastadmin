@@ -49,7 +49,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         trylisten: function () {
             Form.api.bindevent($("form[role=form]"), function (data) {
                 var audioSource = data.url;
-                $('#audioPlayer').html('<source src="' + audioSource + '" type="audio/mpeg">');
+                $('#audioPlayer').html('<source src="' + audioSource + '" type="audio/wav">');
                 Toastr.success('success');
                 return false;
             });
