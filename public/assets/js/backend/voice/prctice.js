@@ -50,6 +50,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Form.api.bindevent($("form[role=form]"), function (data) {
                 var audioSource = data.url;
                 $('#audioPlayer').html('<source src="' + audioSource + '" type="audio/wav">');
+                $('#audioPlayer')[0].pause(); // 暂停播放
+                $('#audioPlayer')[0].load(); // 重新加载音频
+                $('#audioPlayer')[0].play(); // 播放音频
                 Toastr.success('success');
                 return false;
             });
