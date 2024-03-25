@@ -47,7 +47,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         try_listen: function () {
-            Form.api.bindevent($("form[role=form-remark]"), function (data) {
+            Form.api.bindevent($("form[role=form]"), function (data) {
+                contole.log(data);
                 Toastr.success('success');
                 return false;
             });
