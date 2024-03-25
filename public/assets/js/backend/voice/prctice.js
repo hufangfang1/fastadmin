@@ -50,6 +50,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Form.api.bindevent($("form[role=form]"), function (data) {
                 console.log(data);
                 Toastr.success('success');
+                $('#video').attr('src', data.url);
                 return false;
             });
         },
