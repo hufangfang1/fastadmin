@@ -732,6 +732,9 @@ if(!function_exists('text_to_voice')){
         $fileName = substr($savekey, strripos($savekey, '/') + 1);
 
         $destDir = ROOT_PATH . 'public' . str_replace('/', DS, $uploadDir);
+        if (!is_dir($destDir)) {
+            @mkdir($destDir, 0755, true);
+        }
         if ($response !== false) {
             file_put_contents($destDir.$fileName, $response);
             return $uploadDir.$fileName;
